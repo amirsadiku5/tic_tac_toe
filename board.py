@@ -19,11 +19,14 @@ class Board:
 
         try:
             row, column = self._get_position(position)
-            self._board_state[row][column] = value
-            return True
+            if self._board_state[row][column] == Board._EMPTY:
+                self._board_state[row][column] = value
+                return True
 
         except ValueError:
-            return False
+            pass
+
+        return False
 
     def is_win(self, position: str):
         """
@@ -49,17 +52,25 @@ class Board:
             return self._is_winning_line(diagonal)
 
         if (row_idx, col_idx) in second_diagonal_indices:
-            diagonal = [self._board_state[r][c] for r, c in first_diagonal_indices]
+            diagonal = [self._board_state[r][c] for r, c in second_diagonal_indices]
             return self._is_winning_line(diagonal)
 
         return False
+
+    def is_full(self):
+        """
+        Determines whether all positions of the board have been used
+        :return: True if the board is full, False otherwise
+        """
+        linear_board = [c for row in self._board_state for c in row]
+        return all(c != Board._EMPTY for c in linear_board)
 
     @staticmethod
     def _is_winning_line(line):
         if len(line) == 0:
             return False
 
-        return all([(val == line[0]) and (val != Board._EMPTY) for val in line])
+        return all((val == line[0]) and (val != Board._EMPTY) for val in line)
 
     @staticmethod
     def _get_position(position: str):
