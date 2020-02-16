@@ -85,7 +85,16 @@ class Board:
 
     def __str__(self):
         """
-        :return: A string representation of the current state of the board
+        Calculates the string representation of the board. For example:
+             1     2     3
+           -----------------
+        A  |    |  x  |    |
+           -----------------
+        B  |    |  o  |    |
+           -----------------
+        C  |    |     |    |
+           -----------------
+        :return: The string representation of the current state of the board
         """
         def to_line(matrix_row):
             return f'|{matrix_row[0]:^3} | {matrix_row[1]:^3} | {matrix_row[2]:^3}|'
